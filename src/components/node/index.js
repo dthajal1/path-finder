@@ -1,4 +1,13 @@
 import React, { Component } from 'react';
+import { Grid } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  width: '40px', 
+  height:'40px', 
+  border: '1px solid grey', 
+  display: 'inline-block'
+}));
 
 export default class Node extends Component {
     constructor(props) {
@@ -7,10 +16,11 @@ export default class Node extends Component {
     }
 
   render() {
+    const { row, col, isStart, isEnd } = this.props;
+
     return (
-      <>
-        Node
-      </>
+      <StyledGrid sx={{ background: `${isStart ? 'green' : isEnd ? 'red' : 'none'}` }} >
+      </StyledGrid>
     )
   }
 }
