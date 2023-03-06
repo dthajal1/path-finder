@@ -17,7 +17,7 @@ export default class Node extends Component {
     }
 
   render() {
-    const { row, col, isStart, isDest, isWall, isVisited, previousNode, isInShortestPath } = this.props.node;
+    const { row, col, isStart, isDest, isWall, isVisited, isInShortestPath } = this.props.node;
 
     return (
         <StyledGrid
