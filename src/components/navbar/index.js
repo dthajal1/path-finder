@@ -14,7 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import RouteIcon from '@mui/icons-material/Route';
 import { Grid } from '@mui/material';
 
-const pages = ['BFS', 'DFS', 'Dijkstra', 'A*'];
+// const pages = ['BFS', 'DFS', 'Dijkstra', 'A*'];
+const pages = [];
 
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -28,7 +29,7 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" color='transparent'>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
             <RouteIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />

@@ -1,5 +1,5 @@
 /* Bread First Search Algorithm. Returns visited nodes in order. */
-export default function BFS(grid, startNode, destNode) {
+export default function BFSAlgo(grid, startNode, destNode) {
 
     let queue = []; // FIFO
     let visited =  [];

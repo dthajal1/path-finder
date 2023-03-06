@@ -3,8 +3,8 @@ import { Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
-  width: '40px', 
-  height:'40px', 
+  width: '25px', 
+  height:'25px', 
   border: '1px solid grey', 
   display: 'inline-block'
 }));
@@ -22,7 +22,7 @@ export default class Node extends Component {
     return (
         <StyledGrid
           sx={{ 
-            background: `${isStart ? 'green' : isDest ? 'red' : isInShortestPath ? 'yellow' : isVisited ? 'indigo' : 'none'}` 
+            background: `${isStart ? 'green' : isDest ? 'red' : isInShortestPath ? 'blue' : isVisited ? 'indigo' : 'none'}` 
           }} 
         />
     )
