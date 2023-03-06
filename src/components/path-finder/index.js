@@ -4,6 +4,7 @@ import Node from '../node';
 import BFSAlgo from '../../algorithms/bfs';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import DFSAlgo from '../../algorithms/dfs';
 
 const BFS = 'BFS';
 const DFS = 'DFS';
@@ -19,11 +20,14 @@ export default class PathFinder extends Component {
         super(props);
         this.state = {
             nodes: [],
-            start: [4, 4],
-            dest: [12, 12],
+            start: [],
+            dest: [],
+
             isSnackbarOpen: false,
+
             speedType: 'medium',
             animationSpeed: 20,
+
         }
     }
 
@@ -75,12 +79,17 @@ export default class PathFinder extends Component {
         const { nodes, start, dest } = this.state;
         let startNode = nodes[start[0]][start[1]];
         let destNode = nodes[dest[0]][dest[1]];
+        let visitedNodesInOrder;
+        let pathToDest;
         switch (TYPE) {
             case BFS:
-                let [visitedNodesInOrder, shortestPath] = BFSAlgo(nodes, startNode, destNode);
-                this.animate(visitedNodesInOrder, shortestPath);
+                [visitedNodesInOrder, pathToDest] = BFSAlgo(nodes, startNode, destNode);
+                this.animate(visitedNodesInOrder, pathToDest);
                 break;
             case DFS:
+                [visitedNodesInOrder, pathToDest] = DFSAlgo(nodes, startNode, destNode);
+                this.animate(visitedNodesInOrder, pathToDest);
+                break;
             case DIJKSTRA:
             case ASTAR:
                 this.setState({isSnackbarOpen: true});
