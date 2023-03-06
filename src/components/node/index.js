@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Paper } from '@mui/material';
+import { Paper, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const StyledGrid = styled(Paper)(({ theme }) => ({
@@ -20,11 +20,16 @@ export default class Node extends Component {
     const { row, col, isStart, isDest, isWall, isVisited, isInShortestPath } = this.props.node;
 
     return (
-        <StyledGrid
-          sx={{ 
-            background: `${isStart ? 'green' : isDest ? 'red' : isInShortestPath ? 'blue' : isVisited ? 'indigo' : 'none'}` 
-          }} 
-        />
+        <>
+          <Tooltip title={isStart ? 'Start Node' : isDest ? 'Destination Node' : ''} >
+            <StyledGrid
+              sx={{ 
+                background: `${isStart ? 'green' : isDest ? 'red' : isInShortestPath ? 'blue' : isVisited ? 'indigo' : 'none'}` 
+              }} 
+            /> 
+          </Tooltip>
+          
+        </>
     )
   }
 }
