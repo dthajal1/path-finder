@@ -17,14 +17,14 @@ export default class Node extends Component {
     }
 
   render() {
-    const { row, col, isStart, isDest, isWall, isVisited, isInShortestPath } = this.props.node;
+    const { isStart, isDest, isWall, isVisited, isInShortestPath } = this.props.node;
 
     return (
         <>
           <Tooltip title={isStart ? 'Start Node' : isDest ? 'Destination Node' : isVisited ? 'Visited Node' : ''} >
             <StyledGrid
               sx={{ 
-                background: `${isStart ? 'green' : isDest ? 'red' : isInShortestPath ? 'blue' : isVisited ? 'indigo' : 'none'}`,
+                background: `${isStart ? 'green' : isDest ? 'red' : isInShortestPath ? 'blue' : isVisited ? 'indigo' : isWall ? 'black' : 'none'}`,
                 cursor: isStart ? 'pointer' : isDest ? 'pointer' : '',
               }} 
             /> 

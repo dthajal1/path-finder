@@ -96,6 +96,7 @@ export default class PathFinder extends Component {
                 setTimeout(() => {
                     this.setState({isSnackbarOpen: false});
                 }, 3000)
+                break;
             default:
                 break;
         }
