@@ -9,6 +9,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   display: 'inline-block'
 }));
 
+/* a node represents a grid.*/
 export default class Node extends Component {
     constructor(props) {
         super(props);
@@ -16,11 +17,14 @@ export default class Node extends Component {
     }
 
   render() {
-    const { row, col, isStart, isEnd } = this.props;
+    const { row, col, isStart, isDest, isWall, isVisited, previousNode, isInShortestPath } = this.props.node;
 
     return (
-      <StyledGrid sx={{ background: `${isStart ? 'green' : isEnd ? 'red' : 'none'}` }} >
-      </StyledGrid>
+        <StyledGrid
+          sx={{ 
+            background: `${isStart ? 'green' : isDest ? 'red' : isInShortestPath ? 'yellow' : isVisited ? 'indigo' : 'none'}` 
+          }} 
+        />
     )
   }
 }
