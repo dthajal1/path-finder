@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Stack, Radio, Tooltip } from '@mui/material';
 import Node from '../node';
 import BFSAlgo from '../../algorithms/bfs';
-import { Stack } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-const ANIMATION_SPEED = 10;
 const BFS = 'BFS';
 const DFS = 'DFS';
 const DIJKSTRA = 'Dijkstra';
@@ -14,7 +12,7 @@ const ASTAR = 'Astar';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
+});  
 
 export default class PathFinder extends Component {
     constructor(props) {
@@ -24,14 +22,15 @@ export default class PathFinder extends Component {
             start: [4, 4],
             dest: [12, 12],
             isSnackbarOpen: false,
+            speedType: 'medium',
+            animationSpeed: 20,
         }
     }
 
     componentDidMount() {
         // initialize grids
-        let { start, dest } = this.state;
-        let nodes = initializeGrids(start, dest);
-        this.setState({nodes});
+        let [nodes, start, dest] = initializeGrids();
+        this.setState({nodes, start, dest});
     }
 
     animateShortestPath(shortestPath) {
@@ -45,7 +44,7 @@ export default class PathFinder extends Component {
                 };
                 newNodes[currNode.row][currNode.col] = newVisitedNode;
                 this.setState({nodes: newNodes});
-            }, ANIMATION_SPEED * i);
+            }, this.state.animationSpeed * i );
         }
     }
 
@@ -55,7 +54,7 @@ export default class PathFinder extends Component {
                 // animate shortest path at the end
                 setTimeout(() => {
                     this.animateShortestPath(shortestPath);
-                }, ANIMATION_SPEED * i);
+                }, this.state.animationSpeed * i );
             } else {
                 // animate algorithm
                 setTimeout(() => {
@@ -67,7 +66,7 @@ export default class PathFinder extends Component {
                     };
                     newNodes[currNode.row][currNode.col] = newVisitedNode;
                     this.setState({nodes: newNodes});
-                }, ANIMATION_SPEED * i);
+                }, this.state.animationSpeed * i );
             }
         }
     }
@@ -93,8 +92,38 @@ export default class PathFinder extends Component {
         }
     }
 
+    resetGrid() {
+        let [nodes, start, dest] = initializeGrids();
+        this.setState({nodes, start, dest});
+    }
+
+    handleSpeedChange(e) {
+        this.setState({speedType: e.target.value})
+        switch (this.state.speedType) {
+            case "slow":
+                this.setState({animationSpeed: 100})
+                break;
+            case "medium":
+                this.setState({animationSpeed: 20})
+                break;
+            case "fast":
+                this.setState({animationSpeed: 5})
+                break;
+            default:
+                break;
+        }
+    }
+
   render() {
     const { nodes } = this.state;
+
+    const controlProps = (type) => ({
+        checked: this.state.speedType === type,
+        onChange: (e) => this.handleSpeedChange(e),
+        value: type,
+        name: 'size-radio-button-demo',
+        inputProps: { 'aria-label': type },
+    });
 
     return (
         <>
@@ -120,6 +149,26 @@ export default class PathFinder extends Component {
                     </Button>
                 </Stack>
             </Grid>
+
+            <Grid container justifyContent='center' alignItems='center'>
+                <Tooltip title="Slow" placement="left">
+                    <Radio {...controlProps('slow')} size="small" />
+                </Tooltip>
+                <Tooltip title="Medium">
+                    <Radio {...controlProps('medium')} />
+                </Tooltip>
+                <Tooltip title="Fast" placement="right">
+                    <Radio
+                        {...controlProps('fast')}
+                        sx={{
+                        '& .MuiSvgIcon-root': {
+                            fontSize: 28,
+                        },
+                        }}
+                    />
+                </Tooltip>
+            </Grid>
+
             <Grid container justifyContent='center' alignItems='center'>
                 {nodes.map((row, rowIdx) => (
                     <div key={rowIdx}>
@@ -129,18 +178,27 @@ export default class PathFinder extends Component {
                     </div>
                 ))}
             </Grid>
+            <Grid container justifyContent='center' alignItems='center' padding='20px'>
+                <Stack direction='row' spacing={2}>
+                    <Button variant='contained' color='secondary' onClick={() => this.resetGrid()}>
+                        Reset Grid
+                    </Button>
+                </Stack>
+            </Grid>
         </>
     )
   }
 }
 
-const initializeGrids = (start, dest) => {
+const initializeGrids = () => {
     let nodes = [];
-    let num_rows = window.innerHeight / 25;
-    let num_cols = window.innerWidth / 25;
-    for (let row = 0; row < num_rows * 0.6; row++) {
+    let num_rows = (window.innerHeight / 25) * 0.6;
+    let num_cols = (window.innerWidth / 25) * 0.8;
+    let start = [getRandomInt(num_rows), getRandomInt(num_cols)]
+    let dest = [getRandomInt(num_rows), getRandomInt(num_cols)]
+    for (let row = 0; row < num_rows; row++) {
         let currentRow = [];
-        for (let col = 0; col < num_cols * 0.8; col++) {
+        for (let col = 0; col < num_cols; col++) {
             const isStart = start[0] === row && start[1] === col;
             const isDest = dest[0] === row && dest[1] === col;
             let newNode = { row, col, isStart, isDest, isWall:false, isVisited:false, isInShortestPath: false }
@@ -148,7 +206,13 @@ const initializeGrids = (start, dest) => {
         }
         nodes.push(currentRow);
     }
-    return nodes;
+    return [nodes, start, dest];
+}
+
+// get an interger in range 0 to max (exclusive)
+function getRandomInt(max) {
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max));
 }
 
 // Possible states for each node in the grid

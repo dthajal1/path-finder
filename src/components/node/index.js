@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Grid } from '@mui/material';
+import { Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const StyledGrid = styled(Grid)(({ theme }) => ({
+const StyledGrid = styled(Paper)(({ theme }) => ({
   width: '25px', 
   height:'25px', 
   border: '1px solid grey', 
