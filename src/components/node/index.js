@@ -21,10 +21,11 @@ export default class Node extends Component {
 
     return (
         <>
-          <Tooltip title={isStart ? 'Start Node' : isDest ? 'Destination Node' : ''} >
+          <Tooltip title={isStart ? 'Start Node' : isDest ? 'Destination Node' : isVisited ? 'Visited Node' : ''} >
             <StyledGrid
               sx={{ 
-                background: `${isStart ? 'green' : isDest ? 'red' : isInShortestPath ? 'blue' : isVisited ? 'indigo' : 'none'}` 
+                background: `${isStart ? 'green' : isDest ? 'red' : isInShortestPath ? 'blue' : isVisited ? 'indigo' : 'none'}`,
+                cursor: isStart ? 'pointer' : isDest ? 'pointer' : '',
               }} 
             /> 
           </Tooltip>

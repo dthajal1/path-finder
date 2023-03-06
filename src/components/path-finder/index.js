@@ -142,7 +142,7 @@ export default class PathFinder extends Component {
                 </Alert>
             </Snackbar>
 
-            <Grid container justifyContent='center' alignItems='center' padding='20px'>
+            <Grid container justifyContent='center' alignItems='center' mt="20px">
                 <Stack direction='row' spacing={2}>
                     <Button variant='contained' onClick={() => this.visualize(BFS)}>
                         BFS
@@ -201,7 +201,7 @@ export default class PathFinder extends Component {
 
 const initializeGrids = () => {
     let nodes = [];
-    let num_rows = (window.innerHeight / 25) * 0.6;
+    let num_rows = (window.innerHeight / 25) * 0.5;
     let num_cols = (window.innerWidth / 25) * 0.8;
     let start = [getRandomInt(num_rows), getRandomInt(num_cols)]
     let dest = [getRandomInt(num_rows), getRandomInt(num_cols)]
