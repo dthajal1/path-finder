@@ -1,6 +1,10 @@
-/* Bread First Search Algorithm. Returns visited nodes in order. */
-export default function BFSAlgo(grid, startNode, destNode) {
+import { getAllNeighbors } from "../utils";
 
+/* Breadth First Search Algorithm. 
+    Returns visited nodes in order along with the path taken to reach the destNode.
+    The path returned by BFS is guranteed to be the shortest path. 
+*/
+export default function BFSAlgo(grid, startNode, destNode) {
     let queue = []; // FIFO
     let visited =  [];
     // keep track of path taken to the node along with the node itself
@@ -29,16 +33,4 @@ export default function BFSAlgo(grid, startNode, destNode) {
         }
     }
     return [visited, []];
-}
-
-function getAllNeighbors(currNode, grid) {
-    let allNeighbors = [];
-    let currRow = currNode.row;
-    let currCol = currNode.col;
-
-    if (currRow > 0) allNeighbors.push(grid[currRow - 1][currCol]);
-    if (currRow < grid.length - 1) allNeighbors.push(grid[currRow + 1][currCol]);
-    if (currCol > 0) allNeighbors.push(grid[currRow][currCol - 1]);
-    if (currCol < grid[0].length - 1) allNeighbors.push(grid[currRow][currCol + 1]);
-    return allNeighbors;
 }
