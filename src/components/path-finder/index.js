@@ -28,6 +28,8 @@ export default class PathFinder extends Component {
             speedType: 'medium',
             animationSpeed: 20,
 
+            isAlgorithmRunning: false,
+            isAlgoRunningSnackBar: false,
         }
     }
 
@@ -73,9 +75,19 @@ export default class PathFinder extends Component {
                 }, this.state.animationSpeed * i );
             }
         }
+        setTimeout(() => {
+            this.setState({ isAlgorithmRunning: false });
+        }, this.state.animationSpeed * visitedNodesInOrder.length);
     }
 
     visualize(TYPE) {
+        if (this.state.isAlgorithmRunning) {
+            this.setState({isAlgoRunningSnackBar: true});
+            setTimeout(() => {
+                this.setState({isAlgoRunningSnackBar: false});
+            }, 3000)
+            return;
+        }
         const { nodes, start, dest } = this.state;
         let startNode = nodes[start[0]][start[1]];
         let destNode = nodes[dest[0]][dest[1]];
@@ -84,10 +96,12 @@ export default class PathFinder extends Component {
         switch (TYPE) {
             case BFS:
                 [visitedNodesInOrder, pathToDest] = BFSAlgo(nodes, startNode, destNode);
+                this.setState({ isAlgorithmRunning: true });
                 this.animate(visitedNodesInOrder, pathToDest);
                 break;
             case DFS:
                 [visitedNodesInOrder, pathToDest] = DFSAlgo(nodes, startNode, destNode);
+                this.setState({ isAlgorithmRunning: true });
                 this.animate(visitedNodesInOrder, pathToDest);
                 break;
             case DIJKSTRA:
@@ -103,6 +117,13 @@ export default class PathFinder extends Component {
     }
 
     resetGrid() {
+        if (this.state.isAlgorithmRunning) {
+            this.setState({isAlgoRunningSnackBar: true});
+            setTimeout(() => {
+                this.setState({isAlgoRunningSnackBar: false});
+            }, 3000)
+            return;
+        }
         let [nodes, start, dest] = initializeGrids();
         this.setState({nodes, start, dest});
     }
@@ -140,6 +161,11 @@ export default class PathFinder extends Component {
             <Snackbar open={this.state.isSnackbarOpen}>
                 <Alert severity="warning" sx={{ width: '100%' }}>
                 This algorithm hasn't been implemented yet. Stay tuned!
+                </Alert>
+            </Snackbar>
+            <Snackbar open={this.state.isAlgoRunningSnackBar}>
+                <Alert severity="info" sx={{ width: '100%' }}>
+                    Please wait for the algorithm to finish running
                 </Alert>
             </Snackbar>
 
